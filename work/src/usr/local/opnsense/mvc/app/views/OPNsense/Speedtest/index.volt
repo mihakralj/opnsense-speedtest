@@ -102,8 +102,8 @@
                 ajaxCall(url="/api/speedtest/service/test/"+$('#speedlist').val(), sendData={}, callback=function(data,status) {
                     let r = JSON.parse(data['response'])          
                     $("#latency").text(r.ping.latency+" ms ("+r.ping.jitter+" ms jitter)");  
-                    $("#dlspeed").text((r.download.bandwidth/100000).toFixed(2)+" Mbps");
-                    $("#ulspeed").text((r.upload.bandwidth/100000).toFixed(2)+" Mbps");
+                    $("#dlspeed").text((r.download.bandwidth/125000).toFixed(2)+" Mbps");
+                    $("#ulspeed").text((r.upload.bandwidth/125000).toFixed(2)+" Mbps");
                     $("#host1").text(r.server.host+":"+r.server.port);  
                     $("#host2").text("IPv4: "+r.server.ip);  
                     $("#ISP1").text("id: "+r.server.id + " ("+r.server.name+")");

@@ -1,5 +1,5 @@
 name: os-speedtest-devel
-version: "0.1_1"
+version: "0.11_1"
 origin: opnsense/os-speedtest-devel
 comment: "A hacked wrapper for speedtest"
 maintainer: "mihak09@gmail.com"
