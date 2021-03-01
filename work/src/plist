@@ -1,0 +1,10 @@
+/usr/local/opnsense/mvc/app/controllers/OPNsense/Speedtest/Api/ServiceController.php
+/usr/local/opnsense/mvc/app/controllers/OPNsense/Speedtest/IndexController.php
+/usr/local/opnsense/mvc/app/models/OPNsense/Speedtest/Menu/Menu.xml
+/usr/local/opnsense/mvc/app/models/OPNsense/Speedtest/Speedtest.php
+/usr/local/opnsense/mvc/app/models/OPNsense/Speedtest/Speedtest.xml
+/usr/local/opnsense/mvc/app/views/OPNsense/Speedtest/index.volt
+/usr/local/opnsense/service/conf/actions.d/actions_speedtest.conf
+/usr/local/opnsense/scripts/OPNsense/speedtest/speedtest.py
+/usr/local/opnsense/scripts/OPNsense/speedtest/speedtest
+/usr/local/opnsense/version/speedtest

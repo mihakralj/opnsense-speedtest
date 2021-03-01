@@ -1,0 +1,10 @@
+name: os-speedtest-devel
+version: "0.1_1"
+origin: opnsense/os-speedtest-devel
+comment: "A hacked wrapper for speedtest"
+maintainer: "mihak09@gmail.com"
+categories: [ "devel" ]
+www: "https://opnsense.org/"
+prefix: "/usr/local"
+licenselogic: "single"
+licenses: [ "BSD2CLAUSE" ]
