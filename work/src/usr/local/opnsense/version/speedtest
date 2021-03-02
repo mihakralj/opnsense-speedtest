@@ -3,9 +3,9 @@
     "product_arch": "amd64",
     "product_email": "mihak09@gmail.com",
     "product_flavour": "OpenSSL",
-    "product_hash": "2420a6e8e",
+    "product_hash": "be9a80d8b",
     "product_id": "os-speedtest-devel",
     "product_name": "speedtest",
-    "product_version": "0.11_1",
+    "product_version": "0.11_2",
     "product_website": "https://opnsense.org/"
 }
