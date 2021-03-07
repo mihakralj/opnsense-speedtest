@@ -1,5 +1,5 @@
 # opnsense-speedtest
-speedtest plugin for OPNsense
+speedtest plugin for OPNsense (updated stats)
 
 ## install
 sudo pkg install -y libidn2   
