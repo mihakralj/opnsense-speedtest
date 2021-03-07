@@ -1,7 +1,32 @@
 
-    <select id="speedlist" name="serverid">
-        <option value="12345">Fetching list of Speedtest servers...</option>
-    </select>
+<h2>Statistics:</h2>
+ <table class="table table-condensed">
+     <tbody>
+         <tr>
+             <td style="width:30%">Speedtest probes:</td>
+             <td><div id="stat_samples">0</div></td>
+         </tr>
+         <tr>
+             <td>Average Latency:</td>
+             <td id="stat_latency">0.00 ms (min: 0.00 ms, max: 0.00 ms)</td>
+         </tr>
+        <tr>
+            <td>Average Download speed:</td>
+            <td id="stat_download">0 Mbps (min: 0 Mbps, max: 0 Mbps)</td>
+        </tr>
+        <tr>
+            <td>Average Upload speed:</td>
+            <td id="stat_upload">0 Mbps (min: 0 Mbps, max: 0 Mbps)</td>
+        </tr>
+     </tbody>
+ </table>
+
+ <hr>
+ <h2>Diagnostics:</h2>
+
+<select id="speedlist" name="serverid">
+    <option value="12345">Fetching list of Speedtest servers...</option>
+</select>
 
 
 <div class="content-box">
@@ -11,7 +36,7 @@
 <table class="table table-striped">
 <tbody>
     <tr>
-        <td style="width:40%"></td> 
+        <td style="width:30%"></td> 
         <td style="width:30%"><button class="btn btn-primary" id="reportAct" type="button">
             <b>{{ lang._('socket test') }}</b> <i id="reportAct_progress"></i></button></td>  
         <td style="width:30%"><button class="btn btn-primary" id="reportPyAct" type="button">
@@ -72,6 +97,13 @@
             for (var i = 0; i < l.length; i++) {
                 $('#speedlist').append("<option value=\""+ l[i].id +"\">" + l[i].host + "<\/option>");
             }
+       });
+       ajaxCall(url="/api/speedtest/service/stat", sendData={}, callback=function(data,status) {
+            let l = JSON.parse(data['response'])
+            $('#stat_samples').text(l.samples+" (since "+l.timestamp.oldest+" GMT)")
+            $('#stat_latency').text(l.latency.avg+" ms (min: "+l.latency.min+" ms, max: "+l.latency.max +" ms)")
+            $('#stat_download').text(l.download.avg+" Mbps (min: "+l.download.min+" Mbps, max: "+l.download.max +" Mbps)")
+            $('#stat_upload').text(l.upload.avg+" Mbps (min: "+l.upload.min+" Mbps, max: "+l.upload.max +" Mbps)")
        });
     });
     $(function() {

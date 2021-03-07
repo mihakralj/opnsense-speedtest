@@ -28,20 +28,6 @@ class ServiceController extends ApiControllerBase
         return array("response" => $response);
     }
 
-    public function runAction()
-    {
-        $backend = new Backend();
-        $response = $backend->configdRun("speedtest run");
-        return array("response" => $response);
-    }
-    
-    public function statAction()
-    {
-        $backend = new Backend();
-        $response = $backend->configdRun("speedtest stat");
-        return array("response" => $response);
-    }
-
 }
 
 
