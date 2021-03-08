@@ -7,3 +7,13 @@ sudo pkg add https://github.com/mihakralj/opnsense-speedtest/raw/main/work/pkg/o
 
 ## remove
 pkg delete os-speedtest-devel
+
+### Version 0.2
+- enabled cron task - you can add it at System-Settings-Cron and add a new command `Run Speedtest`
+- added the api call to execute the statistical test: `/api/speedtest/service/run`
+- added the api call to get json with statistics: `/api/speedtest/service/stat`
+- added the output to .csv file - all tests for statistics are inserted into `/usr/local/opnsense/scripts/OPNsense/speedtest/speedtest.csv`
+- deleting `speedtest.csv` will zero-out statistics
+
+### Version 0.1
+Core diagnostics (socket test and http test)
