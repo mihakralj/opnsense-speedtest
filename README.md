@@ -2,11 +2,12 @@
 speedtest plugin for OPNsense (updated stats)
 
 ## install
-sudo pkg install -y libidn2   
-sudo pkg add https://github.com/mihakralj/opnsense-speedtest/raw/main/work/pkg/os-speedtest-devel-0.2_1.txz
+`sudo pkg install -y libidn2`
+
+`sudo pkg add https://github.com/mihakralj/opnsense-speedtest/raw/main/work/pkg/os-speedtest-devel-0.2_1.txz`
 
 ## remove
-pkg delete os-speedtest-devel
+`pkg delete os-speedtest-devel`
 
 ### Version 0.2
 - enabled cron task - you can add it at System-Settings-Cron and add a new command `Run Speedtest`
