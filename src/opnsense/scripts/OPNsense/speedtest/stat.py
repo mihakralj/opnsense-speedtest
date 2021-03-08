@@ -5,13 +5,21 @@ import csv
 import json
 import time
 import statistics
+import os.path
+from os import path
 
 fields = ['Timestamp', 'ClientIp', 'ServerId', 'ServerName', 'Latency', 'Jitter', 'DlSpeed', 'UlSpeed'] 
 csvfile = "/usr/local/opnsense/scripts/OPNsense/speedtest/speedtest.csv"
-timearray =[]
 latencyarray = []
-uploadarray = []
 downloadarray = []
+uploadarray = []
+timearray = []
+
+p = not path.isfile(csvfile)
+if p:
+    f = open(csvfile, 'a')
+    csv.writer(f).writerow(fields) 
+    f.close()
 
 try:
     f = open(csvfile, 'r')
@@ -25,6 +33,12 @@ try:
             downloadarray.append(float(row[7]))
         line += 1
     line -= 1
+    if line==0:
+        latencyarray = [0]
+        downloadarray = [0]
+        uploadarray = [0]
+        timearray = [0]
+    
     avglat = statistics.mean(latencyarray)
     avgdl = statistics.mean(downloadarray)
     avgul = statistics.mean(uploadarray)
