@@ -1,5 +1,5 @@
 name: os-speedtest-devel
-version: "0.11_2"
+version: "0.3_1"
 origin: opnsense/os-speedtest-devel
 comment: "GUI wrapper around speedtest"
 maintainer: "mihak09@gmail.com"

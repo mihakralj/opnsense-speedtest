@@ -1,0 +1,8 @@
+<model>
+    <mount>//OPNsense/speedtest</mount>
+    <description>
+        Ookla Speedtest plugin
+    </description>
+    <items>
+    </items>
+</model>
