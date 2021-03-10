@@ -36,7 +36,6 @@
 </div>
 
 <h2>Run speedtest</h2>
-
 <div class="content-box">
     <div class="content-box-main collapse in" id="system_information-container" style="display:inline">
     <table class="table table-condensed">
