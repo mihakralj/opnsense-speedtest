@@ -1,28 +1,44 @@
-<h2>Statistics:</h2>   
+
 <div class="content-box">
     <table class="table table-condensed">
         <tbody>
             <tr>
+                <td><h2 style="margin-top:1ex;">Statistics</h2></td>
+                <td style="width: 78%; text-align: right; background-color: inherit; border-top-width: 0px;">
+                    <small>help </small>
+                    <i class="fa fa-toggle-off text-success" style="cursor: pointer;" id="show_all_help_page"></i>
+                </td>                
+            </tr>
+            <tr>
                 <td style="width:30%">Speedtest probes:</td>
-                <td><div id="stat_samples">0</div></td>
+                <td><div id="stat_samples">0</div>
+                    <div class="hide" data-for="help_for_speedprobes"><small>Number of recorded speedtest results</small></div>
+                </td>
             </tr>
             <tr>
                 <td>Average Latency:</td>
-                <td id="stat_latency">0.00 ms (min: 0.00 ms, max: 0.00 ms)</td>
+                <td><div id="stat_latency">0.00 ms (min: 0.00 ms, max: 0.00 ms)</div>
+                    <div class="hide" data-for="help_for_latency"><small>Average time it takes for ping request to reach speedtest server and come back</small></div>
+                </td>
             </tr>
             <tr>
                 <td>Average Download speed:</td>
-                <td id="stat_download">0 Mbps (min: 0 Mbps, max: 0 Mbps)</td>
+                <td><div id="stat_download">0 Mbps (min: 0 Mbps, max: 0 Mbps)</div>
+                    <div class="hide" data-for="help_for_dl"><small>How many megabits of data per second (Mbps) it takes to download data from a server</small></div>
+                </td>
             </tr>
             <tr>
                 <td>Average Upload speed:</td>
-                <td id="stat_upload">0 Mbps (min: 0 Mbps, max: 0 Mbps)</td>
+                <td><div id="stat_upload">0 Mbps (min: 0 Mbps, max: 0 Mbps)</div>
+                    <div class="hide" data-for="help_for_ul"><small>The number of bytes per second (Mbps); how fast data moves from firewall to the network</small></div>   
+                </td>
             </tr>
         </tbody>
     </table>
 </div>
 
-<h2>Run speedtest:</h2>
+<h2>Run speedtest</h2>
+
 <div class="content-box">
     <div class="content-box-main collapse in" id="system_information-container" style="display:inline">
     <table class="table table-condensed">
@@ -91,6 +107,8 @@
     </table>
     </div>
 </div>
+
+<div class="hide" data-for="help_for_speedprobes"><small>Configure <a href="/ui/cron">OPNsense Cron task</a> to run speedtest at a regular interval</small></div>
 <br/>
 
 <div class="content-box" id="logs">
@@ -127,21 +145,6 @@
 </div>
 
 <script>
-function initFormAdvancedUI() {
-    let elements = $('[id*="show_advanced"]');
-    elements.click(function() {
-        elements.toggleClass("fa-toggle-on fa-toggle-off");
-        elements.toggleClass("text-success text-danger");
-        if (elements.hasClass("fa-toggle-on")) {
-            $('[data-advanced*="true"]').show();
-            $('#togglelog').text("hide log");
-        } else {
-            $('[data-advanced*="true"]').hide();
-            $('#togglelog').text("show log");
-        }
-    });
-}
-
     function stat_reload(){
         ajaxCall(url="/api/speedtest/service/stat", sendData={}, callback=function(data,status) {
             let l = JSON.parse(data['response'])
