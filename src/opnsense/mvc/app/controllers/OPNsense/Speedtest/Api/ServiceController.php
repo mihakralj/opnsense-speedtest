@@ -5,22 +5,7 @@ use OPNsense\Base\ApiControllerBase;
 use OPNsense\Core\Backend;
 
 class ServiceController extends ApiControllerBase
-{
-
-    public function pytestAction(int $serverid)
-    {
-        $backend = new Backend();
-        $response = trim($backend->configdRun("speedtest pytest ${serverid}"));
-        return array("response" => $response);
-    } 
-
-    public function testAction(int $serverid)
-    {
-        $backend = new Backend();
-        $response = trim($backend->configdRun("speedtest test ${serverid}"));
-        return array("response" => $response);
-    }
-
+{    
     public function listAction()
     {
         $backend = new Backend();
@@ -28,13 +13,34 @@ class ServiceController extends ApiControllerBase
         return array("response" => $response);
     }
 
-    public function runAction()
+    public function testAction($serverid = 0)
     {
         $backend = new Backend();
-        $response = trim($backend->configdRun("speedtest run"));
+        $response = trim($backend->configdRun("speedtest run ${serverid}"));
+        return array("response" => $response);
+    }
+
+    public function test1Action($serverid = 0)
+    {
+        $backend = new Backend();
+        $response = trim($backend->configdRun("speedtest run1 ${serverid}"));
+        return array("response" => $response);
+    } 
+
+    public function runAction($serverid = 0)
+    {
+        $backend = new Backend();
+        $response = trim($backend->configdRun("speedtest run ${serverid}"));
         return array("response" => $response);
     }
     
+    public function run1Action($serverid = 0)
+    {
+        $backend = new Backend();
+        $response = trim($backend->configdRun("speedtest run1 ${serverid}"));
+        return array("response" => $response);
+    }
+
     public function statAction()
     {
         $backend = new Backend();

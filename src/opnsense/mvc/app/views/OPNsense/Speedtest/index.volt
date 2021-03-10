@@ -22,7 +22,7 @@
     </table>
 </div>
 
-<h2>Diagnostics:</h2>
+<h2>Run speedtest:</h2>
 <div class="content-box">
     <div class="content-box-main collapse in" id="system_information-container" style="display:inline">
     <table class="table table-condensed">
@@ -31,13 +31,20 @@
                 <select id="speedlist" name="serverid">
                     <option value="0">Fetching available Speedtest servers...</option>
                 </select>
+<!--
+                <input type="text" list="speedlist1">
+                <datalist id="speedlist1" name="srvlist" contenteditable="true">
+                    <option value="31467">(31467) Ziply fiber</option>
+                    <option value="5033">(5033) Ziply fiber</option>
+                </datalist>
+-->
             </td> 
             <td style="width:30%"><button class="btn btn-primary" id="reportAct" type="button">
                 <b>{{ lang._('socket test') }}</b> <i id="reportAct_progress"></i></button></td>  
             <td style="width:30%"><button class="btn btn-primary" id="reportPyAct" type="button">
                 <b>{{ lang._('http test') }}</b> <i id="reportPyAct_progress"></i></button></td>  
         </tr></thead>
-        <tbody>
+        <tbody id="test_results" style="display:none">
             <tr>
                 <td>Latency (ping)</td> 
                 <td id="latency">0 ms</td>  
@@ -84,24 +91,32 @@
     </table>
     </div>
 </div>
+<br/>
 
-<h2>Log:</h2>
 <div class="content-box" id="logs">
     <table id="grid-log" class="table table-condensed">
-        <thead><tr>
-            <th data-column-id="Timestamp" class="text-left" style="width:10em;">Timestamp (GMT)</th>
-            <th data-column-id="ServerId" class="text-left" style="width:5em;">Server id</th>
-            <th data-column-id="ServerName" class="text-left" style="width:7em;">Server name</th>
-            <th data-column-id="Latency" class="text-left" style="width:5em;">Latency</th>
-            <th data-column-id="DlSpeed" class="text-left" style="width:5em;">DlSpeed</th>
-            <th data-column-id="UlSpeed" class="text-left" style="width:5em;">UlSpeed</th>
-        </tr></thead>
-        <tbody id="log_block">
+        <thead>
+            <tr>
+                <th style="text-align:left">
+                    <a href="#"><i class="fa fa-toggle-off text-danger" id="show_advanced_log"></i></a> 
+                    <small id="togglelog">show log</small>
+                </th>
+            </tr>
+            <tr id="log_head" data-advanced="true" style="display: none;">
+                <th data-column-id="Timestamp" class="text-left" style="width:7em;">Timestamp (GMT)</th>
+                <th data-column-id="ServerId" class="text-left" style="width:3em;">Server id</th>
+                <th data-column-id="ServerName" class="text-left" style="width:12em;">Server name</th>
+                <th data-column-id="Latency" class="text-left" style="width:2em;">Latency</th>
+                <th data-column-id="DlSpeed" class="text-left" style="width:3em;">DlSpeed</th>
+                <th data-column-id="UlSpeed" class="text-left" style="width:3em;">UlSpeed</th>
+            </tr>
+        </thead>
+        <tbody id="log_block" data-advanced="true" style="display: none;">
         </tbody>
     </table>
 </div>
 <br>
-<div>
+<div id="log_buttons" data-advanced="true" style="display: none;">
     <a href="/api/speedtest/download/csv">
         <button class="btn btn-primary" id="downloadAct" type="button">
             <b>Export log</b>
@@ -112,6 +127,21 @@
 </div>
 
 <script>
+function initFormAdvancedUI() {
+    let elements = $('[id*="show_advanced"]');
+    elements.click(function() {
+        elements.toggleClass("fa-toggle-on fa-toggle-off");
+        elements.toggleClass("text-success text-danger");
+        if (elements.hasClass("fa-toggle-on")) {
+            $('[data-advanced*="true"]').show();
+            $('#togglelog').text("hide log");
+        } else {
+            $('[data-advanced*="true"]').hide();
+            $('#togglelog').text("show log");
+        }
+    });
+}
+
     function stat_reload(){
         ajaxCall(url="/api/speedtest/service/stat", sendData={}, callback=function(data,status) {
             let l = JSON.parse(data['response'])
@@ -134,28 +164,28 @@
                 "<td class=\"text-left\" style=\"\">"+parseFloat(l[i][7]).toFixed(2)+"</td></tr>"
             }
             $('#log_block').html(obj);
-
-           // $('#debug').text(l[0][0])
         });
     };
     $(document).ready(function() {
-        stat_reload();
-        log_reload();
+        // run on doc load
         ajaxCall(url="/api/speedtest/service/list", sendData={}, callback=function(data,status) {
             let l = JSON.parse(data['response']).servers
             let list = ""
             $('#speedlist').text("")
             for (var i = 0; i < l.length; i++) {
-                $('#speedlist').append("<option value=\""+ l[i].id +"\">" + "("+ l[i].id + ") " +l[i].name + "<\/option>");
+                $('#speedlist').append("<option value=\""+ l[i].id +"\">" + "("+ l[i].id + ") " +l[i].name + ", " +l[i].location + "<\/option>");
             }
+        stat_reload();
+        log_reload();
        });
     });
     $(function() {
         // python button
         $("#reportPyAct").click(function(){
             $("#reportPyAct_progress").addClass("fa fa-spinner fa-pulse");
-            ajaxCall(url="/api/speedtest/service/pytest/"+$('#speedlist').val(), sendData={}, callback=function(data,status) {
+            ajaxCall(url="/api/speedtest/service/test1/"+$('#speedlist').val(), sendData={}, callback=function(data,status) {
                 $("#reportPyAct_progress").removeClass("fa fa-spinner fa-pulse");
+                $("#test_results").attr("style", "display:content");
                 let py = JSON.parse(data['response'])
                 $("#pylatency").text(py.ping+" ms");
                 $("#pydlspeed").text((py.download/1000000).toFixed(2)+" Mbps");
@@ -179,6 +209,7 @@
             $("#reportAct_progress").addClass("fa fa-spinner fa-pulse");
             ajaxCall(url="/api/speedtest/service/test/"+$('#speedlist').val(), sendData={}, callback=function(data,status) {
                 $("#reportAct_progress").removeClass("fa fa-spinner fa-pulse");
+                $("#test_results").attr("style", "display:content");                
                 let r = JSON.parse(data['response'])          
                 $("#latency").text(r.ping.latency+" ms ("+r.ping.jitter+" ms jitter)");  
                 $("#dlspeed").text((r.download.bandwidth/125000).toFixed(2)+" Mbps");

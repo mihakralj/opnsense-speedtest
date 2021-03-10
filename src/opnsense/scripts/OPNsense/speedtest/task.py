@@ -11,7 +11,10 @@ from os import path
 
 arg=''
 if len(sys.argv)>1:
+    arg = str(sys.argv[1])
     arg = '-s'+str(sys.argv[1])
+    if arg == '-s0':
+        arg = ''
 
 fields = ['Timestamp', 'ClientIp', 'ServerId', 'ServerName', 'Latency', 'Jitter', 'DlSpeed', 'UlSpeed'] 
 csvfile = "/usr/local/opnsense/scripts/OPNsense/speedtest/speedtest.csv"
@@ -29,7 +32,7 @@ Timestamp = testjson['timestamp']
 Timestamp = Timestamp[:10]+" "+Timestamp[11:19]
 ClientIp = testjson['interface']['externalIp']
 ServerId = testjson['server']['id']
-ServerName = testjson['server']['name']
+ServerName = testjson['server']['name']+", "+testjson['server']['location']
 Latency = testjson['ping']['latency']
 Jitter = testjson['ping']['jitter']
 DlSpeed = testjson['download']['bandwidth']/125000

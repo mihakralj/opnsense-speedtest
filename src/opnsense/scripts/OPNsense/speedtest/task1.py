@@ -9,9 +9,11 @@ import subprocess
 import os.path
 from os import path
 
-arg=''
+arg='0'
 if len(sys.argv)>1:
-    tt = subprocess.run(['/usr/local/opnsense/scripts/OPNsense/speedtest/speedtest.py', '--json', '--share', '--server', str(sys.argv[1])], stdout=subprocess.PIPE).stdout.decode('utf-8')
+    arg=str(sys.argv[1])
+if arg != '0':
+    tt = subprocess.run(['/usr/local/opnsense/scripts/OPNsense/speedtest/speedtest.py', '--json', '--share', '--server', arg], stdout=subprocess.PIPE).stdout.decode('utf-8')
 else:
     tt= subprocess.run(['/usr/local/opnsense/scripts/OPNsense/speedtest/speedtest.py', '--json', '--share'], stdout=subprocess.PIPE).stdout.decode('utf-8')
 
@@ -29,7 +31,7 @@ Timestamp = testjson['timestamp']
 Timestamp = Timestamp[:10]+" "+Timestamp[11:19]
 ClientIp = testjson['client']['ip']
 ServerId = testjson['server']['id']
-ServerName = testjson['server']['sponsor']
+ServerName = testjson['server']['sponsor']+', '+testjson['server']['name']
 Latency = testjson['ping']
 Jitter = 0
 DlSpeed = testjson['download']/1000000
