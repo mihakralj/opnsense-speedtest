@@ -18,20 +18,18 @@
             <tr>
                 <td>Average Latency:</td>
                 <td><div id="stat_latency">0.00 ms (min: 0.00 ms, max: 0.00 ms)</div>
-                    <div class="hide" data-for="help_for_latency"><small>Average time it takes for ping request to reach speedtest server and come back</small></div>
+                    <div class="hide" data-for="help_for_latency"><small>Average time it takes for ping request to reach speedtest server and come back.</small></div>
                 </td>
             </tr>
             <tr>
                 <td>Average Download speed:</td>
                 <td><div id="stat_download">0 Mbps (min: 0 Mbps, max: 0 Mbps)</div>
-                    <div class="hide" data-for="help_for_dl"><small>How many megabits of data per second (Mbps) it takes to download data from a server</small></div>
                 </td>
             </tr>
             <tr>
                 <td>Average Upload speed:</td>
                 <td><div id="stat_upload">0 Mbps (min: 0 Mbps, max: 0 Mbps)</div>
-                    <div class="hide" data-for="help_for_ul"><small>The number of bytes per second (Mbps); how fast data moves from firewall to the network</small></div>   
-                </td>
+                 </td>
             </tr>
         </tbody>
     </table>
@@ -237,6 +235,8 @@
                 log_reload();
                 $("#deletelogAct_progress").removeClass("fa fa-spinner fa-pulse");
             });
+            $('#log_block').html("");
+            log_reload();
        });
     });
 </script>
