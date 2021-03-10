@@ -18,7 +18,6 @@
   <tr>
       <td>Avg Latency:</td>
       <td><div id="stat_latency">0.00 ms (min: 0.00 ms, max: 0.00 ms)</div>
-          <div class="hide" data-for="help_for_latency"><small>Average time it takes for ping request to reach speedtest server and come back.</small></div>
       </td>
   </tr>
   <tr>
