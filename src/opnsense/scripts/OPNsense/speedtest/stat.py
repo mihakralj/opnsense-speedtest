@@ -29,8 +29,8 @@ try:
         if line > 0:
             timearray.append(row[0])
             latencyarray.append(float(row[4]))
-            uploadarray.append(float(row[6]))
-            downloadarray.append(float(row[7]))
+            downloadarray.append(float(row[6]))
+            uploadarray.append(float(row[7]))
         line += 1
     line -= 1
     if line==0:
