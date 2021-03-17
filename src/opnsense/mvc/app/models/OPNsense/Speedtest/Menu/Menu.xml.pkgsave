@@ -1,5 +1,0 @@
-<menu>
-  <Lobby>
-    <Speedtest cssClass="fa fa-area-chart" VisibleName="Speedtest" url="/ui/speedtest/"/>
-  </Lobby>
-</menu>

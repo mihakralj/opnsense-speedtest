@@ -1,6 +1,12 @@
 #!/usr/local/bin/python3
 # -*- coding: utf-8 -*-
 
+# Copyright 2021 Miha Kralj
+# Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License.   You may obtain a copy of the License at
+# http://www.apache.org/licenses/LICENSE-2.0
+# Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+
+
 import csv 
 import json
 import time
@@ -52,17 +58,20 @@ try:
         'latency': {
             'avg': round(statistics.mean(latencyarray),2),
             'min': round(min(latencyarray),2),
-            'max': round(max(latencyarray),2)
+            'max': round(max(latencyarray),2),
+            'last': round(float(row[4]),2)
             },
         'upload':  {
             'avg': round(statistics.mean(uploadarray),2),
             'min': round(min(uploadarray),2),
-            'max': round(max(uploadarray),2)
+            'max': round(max(uploadarray),2),
+            'last': round(float(row[7]),2)
             },
         'download': {
             'avg': round(statistics.mean(downloadarray),2),
             'min': round(min(downloadarray),2),
-            'max': round(max(downloadarray),2)
+            'max': round(max(downloadarray),2),
+            'last': round(float(row[6]),2)
         }
     }
 
