@@ -4,11 +4,16 @@ speedtest plugin for OPNsense (updated stats)
 ## install
 ```
 sudo pkg install -y libidn2
-sudo pkg add https://github.com/mihakralj/opnsense-speedtest/raw/main/work/pkg/os-speedtest-devel-0.3_1.txz
+sudo pkg add https://github.com/mihakralj/opnsense-speedtest/raw/main/work/pkg/os-speedtest-devel-0.4_1.txz
 ```
 
 ## remove
 `pkg delete os-speedtest-devel`
+
+### Version 0.4
+- better exception-handling logic
+- widget for the dashboard
+- moved the speedtest in the Reporting menu structure
 
 ### Version 0.3
 - added log output at the bottom - with the export and delete actions
