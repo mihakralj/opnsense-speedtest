@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2021 Miha Kralj
  *    All rights reserved.
@@ -30,7 +31,8 @@ use OPNsense\Base\ApiControllerBase;
 use OPNsense\Core\Backend;
 
 class ServiceController extends ApiControllerBase
-{    
+{
+
     public function listAction()
     {
         $backend = new Backend();
@@ -50,7 +52,7 @@ class ServiceController extends ApiControllerBase
         $backend = new Backend();
         $response = trim($backend->configdRun("speedtest run1 ${serverid}"));
         return array("response" => $response);
-    } 
+    }
 
     public function runAction($serverid = 0)
     {
@@ -86,7 +88,4 @@ class ServiceController extends ApiControllerBase
         $response = trim($backend->configdRun("speedtest deletelog"));
         return array("response" => $response);
     }
-
-
 }
-

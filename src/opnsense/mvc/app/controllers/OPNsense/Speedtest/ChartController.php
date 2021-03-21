@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2021 Miha Kralj
  *    All rights reserved.
@@ -25,6 +26,7 @@
  *    POSSIBILITY OF SUCH DAMAGE.
  */
 namespace OPNsense\Speedtest;
+
 class ChartController extends \OPNsense\Base\IndexController
 {
     public function indexAction()
@@ -32,5 +34,4 @@ class ChartController extends \OPNsense\Base\IndexController
         // pick the template to serve to our users.
         $this->view->pick('OPNsense/Speedtest/chart');
     }
-    
 }

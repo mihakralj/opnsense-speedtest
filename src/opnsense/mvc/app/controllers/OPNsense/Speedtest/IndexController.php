@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2021 Miha Kralj
  *    All rights reserved.
@@ -26,6 +27,7 @@
  *
  */
 namespace OPNsense\Speedtest;
+
 class IndexController extends \OPNsense\Base\IndexController
 {
     public function indexAction()
@@ -33,5 +35,4 @@ class IndexController extends \OPNsense\Base\IndexController
         // pick the template to serve to our users.
         $this->view->pick('OPNsense/Speedtest/index');
     }
-    
 }

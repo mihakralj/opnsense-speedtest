@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2021 Miha Kralj
  *    All rights reserved.
@@ -25,6 +26,7 @@
  *    POSSIBILITY OF SUCH DAMAGE.
  */
 namespace OPNsense\Speedtest\Api;
+
 use OPNsense\Base\ApiControllerBase;
 
 class DownloadController extends ApiControllerBase

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2021 Miha Kralj
  *    All rights reserved.
