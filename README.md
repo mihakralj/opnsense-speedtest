@@ -4,6 +4,7 @@ speedtest plugin for OPNsense (updated stats)
 ## install
 ```
 sudo pkg install -y libidn2
+sudo pkg add "https://bintray.com/ookla/download/download_file?file_path=ookla-speedtest-1.0.0-freebsd.pkg"
 sudo pkg add https://github.com/mihakralj/opnsense-speedtest/raw/main/work/pkg/os-speedtest-devel-0.3_1.txz
 ```
 
