@@ -55,8 +55,8 @@ if p:
 try:
     # --accept-license and --accept-gdpr allow speedtest binary to run the first time without user interaction
     # if there is no arg, speedtest will choose the server with the lowest latency
-    tt=subprocess.run(['/usr/local/opnsense/scripts/OPNsense/speedtest/speedtest', '--accept-license', 
-                       '--accept-gdpr', '-fjson', arg], stdout=subprocess.PIPE).stdout.decode('utf-8')
+    tt=subprocess.run(['speedtest', '--accept-license', '--accept-gdpr', 
+                       '-fjson', arg], stdout=subprocess.PIPE).stdout.decode('utf-8')
     # parsing the json output from speedtest
     testjson = json.loads(tt)
     Timestamp = testjson['timestamp']

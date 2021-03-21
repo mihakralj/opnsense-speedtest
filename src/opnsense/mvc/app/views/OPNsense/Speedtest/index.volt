@@ -1,7 +1,24 @@
 {# Copyright 2021 Miha Kralj 
-# Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at 
-# http://www.apache.org/licenses/LICENSE-2.0 
-# Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License. 
+*    Redistribution and use in source and binary forms, with or without
+*    modification, are permitted provided that the following conditions are met:
+*
+*    1. Redistributions of source code must retain the above copyright notice,
+*       this list of conditions and the following disclaimer.
+*
+*    2. Redistributions in binary form must reproduce the above copyright
+*       notice, this list of conditions and the following disclaimer in the
+*       documentation and/or other materials provided with the distribution.
+*
+*    THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
+*    INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
+*    AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+*    AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
+*    OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+*    SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+*    INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+*    CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+*    ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+*    POSSIBILITY OF SUCH DAMAGE.
 #}
 <div class="content-box">
     <table class="table table-condensed">
@@ -132,6 +149,17 @@
                     <small id="togglelog">show log</small>
                 </th>
             </tr>
+            <tr><th>
+                <div id="log_buttons" data-advanced="true" style="display: none;">
+                    <a href="/api/speedtest/download/csv">
+                        <button class="btn btn-primary" id="downloadAct" type="button">
+                            <b>Export log</b>
+                        </button>
+                    </a>
+                    <button class="btn btn-primary" id="deletelogAct" type="button">
+                        <b>{{ lang._('Clear log') }}</b> <i id="deletelogAct_progress"></i></button>
+                </div>
+            </th></tr>
             <tr id="log_head" data-advanced="true" style="display: none;">
                 <th data-column-id="Timestamp" class="text-left" style="width:7em;">Timestamp (GMT)</th>
                 <th data-column-id="ServerId" class="text-left" style="width:3em;">Server id</th>
@@ -146,15 +174,6 @@
     </table>
 </div>
 <br>
-<div id="log_buttons" data-advanced="true" style="display: none;">
-    <a href="/api/speedtest/download/csv">
-        <button class="btn btn-primary" id="downloadAct" type="button">
-            <b>Export log</b>
-        </button>
-    </a>
-    <button class="btn btn-primary" id="deletelogAct" type="button">
-        <b>{{ lang._('Clear log') }}</b> <i id="deletelogAct_progress"></i></button>
-</div>
 
 <script>
     function stat_reload() {
@@ -183,6 +202,8 @@
     };
     $(document).ready(function() {
         // run on doc load
+        stat_reload();
+        log_reload();
         ajaxCall(url = "/api/speedtest/service/list", sendData = {}, callback = function(data, status) {
             let l = JSON.parse(data['response']).servers
             let list = ""
@@ -190,8 +211,7 @@
             for (var i = 0; i < l.length; i++) {
                 $('#speedlist').append("<option value=\"" + l[i].id + "\">" + "(" + l[i].id + ") " + l[i].name + ", " + l[i].location + "<\/option>");
             }
-            stat_reload();
-            log_reload();
+
         });
     });
     $(function() {
