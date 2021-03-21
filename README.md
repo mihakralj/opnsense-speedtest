@@ -10,7 +10,7 @@ sudo pkg add https://github.com/mihakralj/opnsense-speedtest/raw/main/work/pkg/o
 ```
 
 ## remove
-`pkg delete os-speedtest-devel`
+`sudo pkg delete os-speedtest-devel`
 
 ### Version 0.5
 - removed local binary copy of speedtest - needs to be installed separately
