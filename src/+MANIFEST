@@ -8,7 +8,3 @@ www: "https://opnsense.org/"
 prefix: "/usr/local"
 licenselogic: "single"
 licenses: [ "BSD2CLAUSE" ]
-deps: {
-  libidn2: { version: "2.3.0_1", origin: "dns/libidn2" }
-  speedtest: { version: "1.0.0.2-1.5ae238b", origin: "fpm/speedtest" }
-}
