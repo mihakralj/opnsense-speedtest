@@ -1,5 +1,0 @@
-{% if helpers.exists('OPNsense.Rspamd.general.enabled') and OPNsense.Rspamd.general.enabled == '1' and helpers.exists('OPNsense.Rspamd.spamtrap.spam_recipients') %}
-{%   for recipient in OPNsense.Rspamd.spamtrap.spam_recipients.split(',') %}
-/{{ recipient }}/i
-{%   endfor %}
-{% endif %}

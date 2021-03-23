@@ -1,5 +1,0 @@
-{% if helpers.exists('OPNsense.Rspamd.general.enabled') and OPNsense.Rspamd.general.enabled == '1' and helpers.exists('OPNsense.Rspamd.multimap.badfileextension') and OPNsense.Rspamd.multimap.badfileextension != '' %}
-{%   for extension in OPNsense.Rspamd.multimap.badfileextension.split(',') %}
-{{ extension }}
-{%   endfor %}
-{% endif %}
