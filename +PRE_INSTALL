@@ -1,5 +1,5 @@
 if [ ! -f /usr/local/bin/speedtest ];
-  then sudo pkg add "https://bintray.com/ookla/download/download_file?file_path=ookla-speedtest-1.0.0-freebsd"
+  then sudo pkg add "https://bintray.com/ookla/download/download_file?file_path=ookla-speedtest-1.0.0-freebsd>
 fi
 pkg info libidn2 > nul
 if [ $? != 0 ]; then sudo pkg install -y libidn2; fi
