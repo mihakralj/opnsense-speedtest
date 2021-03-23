@@ -1,0 +1,3 @@
+speedtest is an OPNsense wrapper for speedtest CLI and speedtest
+binary test. It generates the CSV history of tests - if included
+in cron.
