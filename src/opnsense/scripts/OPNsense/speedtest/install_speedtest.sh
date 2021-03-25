@@ -28,6 +28,7 @@ then
 elif [ $1 = 'bin' ] 
 then 
   pkg delete -y py37-speedtest-cli
+  pkg install -y libidn2
   pkg add -f "https://bintray.com/ookla/download/download_file?file_path=ookla-speedtest-1.0.0-freebsd.pkg"
 elif [ $1 = 'delete' ]
 then

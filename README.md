@@ -4,11 +4,24 @@ speedtest plugin for OPNsense
 ## install
 ```
 sudo pkg install -y libidn2
-sudo pkg add https://github.com/mihakralj/opnsense-speedtest/raw/main/work/pkg/os-speedtest-devel-0.6_2.txz
+sudo pkg add https://github.com/mihakralj/opnsense-speedtest/raw/main/work/pkg/os-speedtest-devel-0.7_1.txz
 ```
 
 ## remove
 `sudo pkg delete os-speedtest-devel`
+
+### Version 0.7
+- no dependency at install time; plugin detects if speedtest is missing and allows installation
+- complete rewrite of Python wrapper (opn_speedtest.py) that now accepts tons or parameters:
+-> no paramter == default speedtest test
+-> numeric parameter == server id for specific speedtest test
+-> t or list == list of the nearest 10 speedtest servers
+-> l or log == show the most recent 50 results from CSV file
+-> s or stat == display statistics of all tests in CSV file
+- added the install_speedtest.sh with three paramters:
+->  bin == install Oookla binary
+->  cli == install Python speedtest-cli
+->  delete == uninstall it all
 
 ### Version 0.6
 - we are back with embedded binary copy of speedtest...
