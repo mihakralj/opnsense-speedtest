@@ -31,7 +31,7 @@ use OPNsense\Base\ApiControllerBase;
 
 class DownloadController extends ApiControllerBase
 {
-    const DATA_CSV = '/usr/local/opnsense/scripts/OPNsense/speedtest/speedtest.csv';
+    private const DATA_CSV = '/usr/local/opnsense/scripts/OPNsense/speedtest/speedtest.csv';
 
     public function csvAction()
     {

@@ -35,4 +35,9 @@ class IndexController extends \OPNsense\Base\IndexController
         // pick the template to serve to our users.
         $this->view->pick('OPNsense/Speedtest/index');
     }
+    public function installAction()
+    {
+        // pick the template to serve to our users.
+        $this->view->pick('OPNsense/Speedtest/install');
+    }
 }

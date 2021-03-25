@@ -32,60 +32,42 @@ use OPNsense\Core\Backend;
 
 class ServiceController extends ApiControllerBase
 {
-
-    public function listAction()
+    public function versionAction()
     {
-        $backend = new Backend();
-        $response = $backend->configdRun("speedtest serverlist");
-        return array("response" => $response);
+        return (new Backend())->configdRun("speedtest version");
     }
 
-    public function testAction($serverid = 0)
+    public function serverlistAction()
     {
-        $backend = new Backend();
-        $response = trim($backend->configdRun("speedtest run ${serverid}"));
-        return array("response" => $response);
-    }
-
-    public function test1Action($serverid = 0)
-    {
-        $backend = new Backend();
-        $response = trim($backend->configdRun("speedtest run1 ${serverid}"));
-        return array("response" => $response);
+        return (new Backend())->configdRun("speedtest serverlist");
     }
 
     public function runAction($serverid = 0)
     {
-        $backend = new Backend();
-        $response = trim($backend->configdRun("speedtest run ${serverid}"));
-        return array("response" => $response);
-    }
-    
-    public function run1Action($serverid = 0)
-    {
-        $backend = new Backend();
-        $response = trim($backend->configdRun("speedtest run1 ${serverid}"));
-        return array("response" => $response);
+        return (new Backend())->configdpRun("speedtest run", [$serverid]);
     }
 
-    public function statAction()
+    public function showstatAction()
     {
-        $backend = new Backend();
-        $response = $backend->configdRun("speedtest stat");
-        return array("response" => $response);
+        return (new Backend())->configdRun("speedtest showstat");
     }
 
-    public function logAction()
+    public function showlogAction()
     {
-        $backend = new Backend();
-        $response = trim($backend->configdRun("speedtest log"));
-        return array("response" => $response);
+        return (new Backend())->configdRun("speedtest showlog");
     }
 
     public function deletelogAction()
     {
-        $backend = new Backend();
-        $response = trim($backend->configdRun("speedtest deletelog"));
-        return array("response" => $response);
+        return (new Backend())->configdRun("speedtest deletelog");
+    }
+
+    public function installcliAction()
+    {
+        return (new Backend())->configdRun("speedtest install-cli");
+    }
+    public function installbinAction()
+    {
+        return (new Backend())->configdRun("speedtest install-bin");
     }
 }

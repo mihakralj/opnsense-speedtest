@@ -40,13 +40,6 @@
                 </td>
             </tr>
             <tr>
-                <td>Average Latency:</td>
-                <td>
-                    <div id="stat_latency">0.00 ms (min: 0.00 ms, max: 0.00 ms)</div>
-                    <div class="hide" data-for="help_for_latency"><small>Average time it takes for ping request to reach speedtest server and come back.</small></div>
-                </td>
-            </tr>
-            <tr>
                 <td>Average Download speed:</td>
                 <td>
                     <div id="stat_download">0 Mbps (min: 0 Mbps, max: 0 Mbps)</div>
@@ -60,6 +53,13 @@
                     <div class="hide" data-for="help_for_upload"><small>Average sending bandwidth (lowest recorded probe, highest recorded probe)</small></div>
                 </td>
             </tr>
+            <tr>
+                <td>Average Latency:</td>
+                <td>
+                    <div id="stat_latency">0.00 ms (min: 0.00 ms, max: 0.00 ms)</div>
+                    <div class="hide" data-for="help_for_latency"><small>Average time it takes for ping request to reach speedtest server and come back.</small></div>
+                </td>
+            </tr>
         </tbody>
     </table>
 </div>
@@ -68,57 +68,49 @@
     <div class="content-box-main collapse in" id="system_information-container" style="display:inline">
         <table class="table table-condensed">
             <thead>
-                <tr>
-                    <td style="width:30%">
+                <tr id="canruntests" style="display:none">
+                    <td style="width:35%">
                         <select id="speedlist" name="serverid">
                         <option value="0">Fetching available Speedtest servers...</option>
                         /select>
                     </td>
-                    <td style="width:30%"><button class="btn btn-primary" id="reportAct" type="button">
-                <b>{{ lang._('socket test') }}</b> <i id="reportAct_progress"></i></button></td>
-                    <td style="width:30%"><button class="btn btn-primary" id="reportPyAct" type="button">
-                <b>{{ lang._('http test') }}</b> <i id="reportPyAct_progress"></i></button></td>
+                    <td ><button class="btn btn-primary" id="reportAct" type="button">
+                <b>{{ lang._('run speedtest') }}</b> <i id="reportAct_progress"></i></button></td>
+                </tr>
+                <tr>
+                    <div id="checkingspeedtest">&nbsp;&nbsp;Locating speedtest module...</div>
+                    <div id="nospeedtest" style="display:none">&nbsp;&nbsp;No installed speedtest modules found. Install 
+                        <button class="btn btn-xs btn-primary" id="cliAct" type="button"><b>speedtest-cli</b><i id="cliAct_progress"></i></button>
+                    or 
+                        <button class="btn btn-xs btn-primary" id="binAct" type="button"><b>Ookla</b><i id="binAct_progress"></i></button>
+                    </div>
                 </tr>
             </thead>
             <tbody id="test_results" style="display:none">
                 <tr>
-                    <td>Latency (ping)</td>
-                    <td id="latency">0 ms</td>
-                    <td id="pylatency">0 ms</td>
-                </tr>
-                <tr>
                     <td>Download speed</td>
                     <td id="dlspeed">0 Mbps</td>
-                    <td id="pydlspeed">0 Mbps</td>
                 </tr>
                 <tr>
                     <td>Upload speed</td>
                     <td id="ulspeed">0 Mbps</td>
-                    <td id="pyulspeed">0 Mbps</td>
+                </tr>
+                <tr>
+                    <td>Latency (ping)</td>
+                    <td id="latency">0 ms</td>
                 </tr>
                 <tr>
                     <td>Speedtest server</td>
                     <td>
-                        <div id="host1"></div>
                         <div id="ISP1"></div>
                         <div id="ISP2"></div>
                         <div id="ISP3"></div>
                     </td>
-                    <td>
-                        <div id="pyhost1"></div>
-                        <div id="pyhost3"></div>
-                        <div id="pyhost4"></div>
-                        <div id="pyhost5"></div>
-                    </td>
                 </tr>
                 <tr>
-                    <td>Client</td>
+                    <td>Client IP:</td>
                     <td>
-                        <div id="client4"></div>
-                        <div id="client5"></div>
-                    </td>
-                    <td>
-                        <div id="pyclient"></div>
+                        <div id="client"></div>
                     </td>
                 </tr>
                 <tr>
@@ -126,19 +118,24 @@
                     <td>
                         <div id="result"></div>
                     </td>
-                    <td>
-                        <div id="pyresult">
-                        </div>
-                    </td>
-                    </td>
                 </tr>
             </tbody>
         </table>
     </div>
 </div>
 
-<div class="hide" data-for="help_for_speedprobes"><a href="/ui/cron">Configure OPNsense Cron task</a> to run speedtest at a regular interval</div>
-<br/>
+<div class="hide" data-for="help_for_speedprobes">
+    <a href="/ui/cron"><button class="btn btn-xs btn-primary" id="cronAct" type="button">
+            <b> schedule in cron </b>
+    </button></a>
+    <button id="cli1Act" class="btn btn-xs" type="button">
+        <b>speedtest-cli</b>
+    </button>
+    <button id="bin1Act" class="btn btn-xs" type="button">
+        <b>ookla binary</b>
+    </button><br>
+    <small><div id="version"></div></small>
+</div>
 
 <div class="content-box" id="logs">
     <table id="grid-log" class="table table-condensed">
@@ -150,13 +147,17 @@
                 </th>
             </tr>
             <tr><th>
-                <div id="log_buttons" data-advanced="true" style="display: none;">
+                <div id="exportlog_button" data-advanced="true" style="display: none;">
                     <a href="/api/speedtest/download/csv">
-                        <button class="btn btn-primary" id="downloadAct" type="button">
+                        <button class="btn btn-sm btn-primary" id="downloadAct" type="button">
                             <b>Export log</b>
                         </button>
                     </a>
-                    <button class="btn btn-primary" id="deletelogAct" type="button">
+                </div>
+            </th>
+            <th>
+                <div id="clearlog_button" data-advanced="true" style="display: none;">
+                    <button class="btn  btn-sm btn-primary" id="deletelogAct" type="button">
                         <b>{{ lang._('Clear log') }}</b> <i id="deletelogAct_progress"></i></button>
                 </div>
             </th></tr>
@@ -164,21 +165,19 @@
                 <th data-column-id="Timestamp" class="text-left" style="width:7em;">Timestamp (GMT)</th>
                 <th data-column-id="ServerId" class="text-left" style="width:3em;">Server id</th>
                 <th data-column-id="ServerName" class="text-left" style="width:12em;">Server name</th>
-                <th data-column-id="Latency" class="text-left" style="width:2em;">Latency</th>
-                <th data-column-id="DlSpeed" class="text-left" style="width:3em;">DlSpeed</th>
-                <th data-column-id="UlSpeed" class="text-left" style="width:3em;">UlSpeed</th>
+                <th data-column-id="Latency" class="text-left" style="width:2em;">Download</th>
+                <th data-column-id="DlSpeed" class="text-left" style="width:3em;">Upload</th>
+                <th data-column-id="UlSpeed" class="text-left" style="width:3em;">Latency</th>
             </tr>
         </thead>
         <tbody id="log_block" data-advanced="true" style="display: none;">
         </tbody>
     </table>
 </div>
-<br>
 
 <script>
     function stat_reload() {
-        ajaxCall(url = "/api/speedtest/service/stat", sendData = {}, callback = function(data, status) {
-            let l = JSON.parse(data['response'])
+        ajaxCall(url = "/api/speedtest/service/showstat", sendData = {}, callback = function(l, status) {
             $('#stat_samples').html("<b>" + l.samples + "<\/b>")
             $('#stat_latency').html("<b>" + l.latency.avg + " ms<\/b> (min: " + l.latency.min + " ms, max: " + l.latency.max + " ms)")
             $('#stat_download').html("<b>" + l.download.avg + " Mbps<\/b> (min: " + l.download.min + " Mbps, max: " + l.download.max + " Mbps)")
@@ -186,77 +185,101 @@
         });
     };
     function log_reload() {
-        ajaxCall(url = "/api/speedtest/service/log", sendData = {}, callback = function(data, status) {
-            let l = JSON.parse(data['response'])
+        ajaxCall(url = "/api/speedtest/service/showlog", sendData = {}, callback = function(l, status) {
             for (var i = 0; i < l.length; i++) {
                 var obj = obj +
                     "<tr><td class=\"text-left\" style=\"\">" + l[i][0] + "</td>" +
                     "<td class=\"text-left\" style=\"\">" + l[i][2] + "</td>" +
                     "<td class=\"text-left\" style=\"\">" + l[i][3] + "</td>" +
-                    "<td class=\"text-left\" style=\"\">" + parseFloat(l[i][4]).toFixed(2) + "</td>" +
+                    "<td class=\"text-left\" style=\"\">" + parseFloat(l[i][5]).toFixed(2) + "</td>" +
                     "<td class=\"text-left\" style=\"\">" + parseFloat(l[i][6]).toFixed(2) + "</td>" +
                     "<td class=\"text-left\" style=\"\">" + parseFloat(l[i][7]).toFixed(2) + "</td></tr>"
             }
             $('#log_block').html(obj);
         });
     };
+    function version_reload() {
+        ajaxCall(url = "/api/speedtest/service/version", sendData = {}, callback = function(l, status) {
+            $('#checkingspeedtest').hide();
+            if (l.version=='none') {
+                $('#nospeedtest').show("div");
+            } else {
+                $('#canruntests').show();
+                $('#version').text(l.message);
+                if (l.version=='binary') {
+                    $('#bin1Act').addClass('btn-success disabled')
+                    $('#bin1Act').removeClass('btn-primary')
+                    $('#cli1Act').removeClass('btn-success disabled')
+                    $('#cli1Act').addClass('btn-primary')
+                } else {
+                    $('#cli1Act').addClass('btn-success disabled')
+                    $('#cli1Act').removeClass('btn-primary')
+                    $('#bin1Act').removeClass('btn-success disabled')
+                    $('#bin1Act').addClass('btn-primary')
+                }
+                
+                ajaxCall(url = "/api/speedtest/service/serverlist", sendData = {}, callback = function(l, status) {
+                    $('#speedlist').text("")
+                    for (var i = 0; i < l.length; i++) {
+                        $('#speedlist').append("<option value=\"" + l[i].id + "\">" + "(" + l[i].id + ") " + l[i].name + ", " + l[i].location + "<\/option>");
+                    }
+                });
+            }
+            });
+    };
+
     $(document).ready(function() {
         // run on doc load
+        version_reload();
         stat_reload();
         log_reload();
-        ajaxCall(url = "/api/speedtest/service/list", sendData = {}, callback = function(data, status) {
-            let l = JSON.parse(data['response']).servers
-            let list = ""
-            $('#speedlist').text("")
-            for (var i = 0; i < l.length; i++) {
-                $('#speedlist').append("<option value=\"" + l[i].id + "\">" + "(" + l[i].id + ") " + l[i].name + ", " + l[i].location + "<\/option>");
-            }
 
-        });
     });
     $(function() {
-        // python button
-        $("#reportPyAct").click(function() {
-            $("#reportPyAct_progress").addClass("fa fa-spinner fa-pulse");
-            ajaxCall(url = "/api/speedtest/service/test1/" + $('#speedlist').val(), sendData = {}, callback = function(data, status) {
-                $("#reportPyAct_progress").removeClass("fa fa-spinner fa-pulse");
-                $("#test_results").attr("style", "display:content");
-                let py = JSON.parse(data['response'])
-                $("#pylatency").text(py.ping + " ms");
-                $("#pydlspeed").text((py.download / 1000000).toFixed(2) + " Mbps");
-                $("#pyulspeed").text((py.upload / 1000000).toFixed(2) + " Mbps");
-                $("#reportPyAct_progress").removeClass("fa fa-spinner fa-pulse");
-                $("#pyhost1").text(py.server.host);
-                $("#pyhost2").text("IPv4: ");
-                $("#pyhost3").text("id: " + py.server.id);
-                $("#pyhost4").text(py.server.name);
-                $("#pyhost5").text(py.server.country);
-                $("#pyclient").text("Public IP: " + py.client.ip);
-                let pyresulturl = py.share.slice(0, py.share.length - 4)
-                let pyresult = pyresulturl.slice(pyresulturl.lastIndexOf("/") + 1)
-                $("#pyresult").html("<a href=\"" + pyresulturl + "\"  target=\"_blank\">" + pyresult + "</a>");
-                stat_reload();
-                log_reload();
+        // pressing button
+        $("#cliAct").click(function() {
+            ajaxCall(url = "/api/speedtest/service/installcli/", sendData = {}, callback = function(r, status) {
+                version_reload();
+                $('#nospeedtest').hide();
+                $('#canruntests').show();
             });
         });
-        // Oookla binary button
+        $("#binAct").click(function() {
+            ajaxCall(url = "/api/speedtest/service/installbin/", sendData = {}, callback = function(r, status) {
+                version_reload();
+                $('#nospeedtest').hide();
+                $('#canruntests').show();
+            });
+        });
+        $("#cli1Act").click(function() {
+            ajaxCall(url = "/api/speedtest/service/installcli/", sendData = {}, callback = function(r, status) {
+                version_reload();
+                $('#nospeedtest').hide();
+                $('#canruntests').show();
+            });
+        });
+        $("#bin1Act").click(function() {
+            ajaxCall(url = "/api/speedtest/service/installbin/", sendData = {}, callback = function(r, status) {
+                version_reload();
+                $('#nospeedtest').hide();
+                $('#canruntests').show();
+            });
+        });
         $("#reportAct").click(function() {
             $("#reportAct_progress").addClass("fa fa-spinner fa-pulse");
-            ajaxCall(url = "/api/speedtest/service/test/" + $('#speedlist').val(), sendData = {}, callback = function(data, status) {
+            ajaxCall(url = "/api/speedtest/service/run/" + $('#speedlist').val(), sendData = {}, callback = function(r, status) {
                 $("#reportAct_progress").removeClass("fa fa-spinner fa-pulse");
                 $("#test_results").attr("style", "display:content");
-                let r = JSON.parse(data['response'])
-                $("#latency").text(r.ping.latency + " ms (" + r.ping.jitter + " ms jitter)");
-                $("#dlspeed").text((r.download.bandwidth / 125000).toFixed(2) + " Mbps");
-                $("#ulspeed").text((r.upload.bandwidth / 125000).toFixed(2) + " Mbps");
-                $("#host1").text(r.server.host + ":" + r.server.port);
-                $("#host2").text("IPv4: " + r.server.ip);
-                $("#ISP1").text("id: " + r.server.id + " (" + r.server.name + ")");
-                $("#ISP2").text(r.server.location);
-                $("#ISP3").text(r.server.country);
-                $("#client4").text("Public IP: " + r.interface.externalIp);
-                $("#client5").text("VPN detected: " + r.interface.isVpn);
-                $("#result").html("<a href=\"" + r.result.url + "\"  target=\"_blank\">" + r.result.id + "</a>");
+                $("#dlspeed").text(r.download + " Mbps");
+                $("#ulspeed").text(r.upload + " Mbps");
+                $("#latency").text(r.latency + " ms");
+                $("#ISP1").text("id: " + r.serverid);
+                $("#ISP2").text(r.servername);
+                $("#ISP3").text(r.country);
+                $("#client").text(r.clientip);
+
+                $("#result").html("<a href=\"" + r.link + "\"  target=\"_blank\">" + r.link + "</a>");
+
                 stat_reload();
                 log_reload();
             });
@@ -273,4 +296,5 @@
             log_reload();
         });
     });
+
 </script>
