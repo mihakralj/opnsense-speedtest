@@ -5,7 +5,8 @@ speedtest plugin for OPNsense
 ```
 sudo pkg add https://github.com/mihakralj/opnsense-speedtest/raw/main/work/pkg/os-speedtest-0.7_1.txz
 ```
-(format of csv changed - do clear the old one if upgrading)
+format of csv has changed and now expects epoch time in the first row - do clear the old one if upgrading from previous builds
+(how do you convert epoch time to an Excel datetime, you ask? With a formula `=(A1/86400)+DATE(1970,1,1)` )
 
 ## remove
 `sudo pkg delete os-speedtest-devel`
