@@ -1,5 +1,6 @@
 # opnsense-speedtest
-speedtest plugin for OPNsense
+speedtest plugin for OPNsense. Doesn't include the speedtest module, but allows installation of either Python-based http test or Ookla's binary socket test.
+To change the testing module, expand the help (top right)
 
 ## install
 ```
