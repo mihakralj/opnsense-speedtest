@@ -5,6 +5,7 @@ speedtest plugin for OPNsense
 ```
 sudo pkg add https://github.com/mihakralj/opnsense-speedtest/raw/main/work/pkg/os-speedtest-0.7_1.txz
 ```
+(format of csv changed - do clear the old one if upgrading)
 
 ## remove
 `sudo pkg delete os-speedtest-devel`
