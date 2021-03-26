@@ -9,7 +9,7 @@ sudo pkg add https://github.com/mihakralj/opnsense-speedtest/raw/main/work/pkg/o
 ## remove
 `sudo pkg delete os-speedtest-devel`
 
-### Version 0.7_2
+### Version 0.7_1
 - removed automatic invocation of install_speedtest.sh from GUI
 - removed the bug on widget control
 - fixed the display of stats when there are zero records in the csv
