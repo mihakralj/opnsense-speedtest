@@ -78,11 +78,18 @@
                 <b>{{ lang._('run speedtest') }}</b> <i id="reportAct_progress"></i></button></td>
                 </tr>
                 <tr>
-                    <div id="checkingspeedtest">&nbsp;&nbsp;Locating speedtest module...</div>
-                    <div id="nospeedtest" style="display:none">&nbsp;&nbsp;No installed speedtest modules found. Install 
-                        <button class="btn btn-xs btn-primary" id="cliAct" type="button"><b>speedtest-cli</b><i id="cliAct_progress"></i></button>
-                    or 
-                        <button class="btn btn-xs btn-primary" id="binAct" type="button"><b>Ookla</b><i id="binAct_progress"></i></button>
+                    <div id="checkingspeedtest">&nbsp;&nbsp;Locating speedtest package...</div>
+                    <div id="nospeedtest" style="display:none"><b>No installed speedtest package found.</b><br/><br/>
+                        Install http speedtest (from BSD ports):
+                            <li style="font-family: monospace;">sudo pkg install -f -y py37-speedtest-cli</li>
+                        Install TCP socket speedtest (from Ookla):
+                            <li style="font-family: monospace;">sudo pkg add -f "https://bintray.com/ookla/download/download_file?file_path=ookla-speedtest-1.0.0-freebsd.pkg"</li>
+                        <br/>
+                        There is a script <b>install_speedtest.sh</b> available in the directory /usr/local/opnsense/scripts/OPNsense/speedtest:<br/>
+                        Remove http and install TCP socket speedtest: <li style="font-family: monospace;">sudo /usr/local/opnsense/scripts/OPNsense/speedtest/install_speedtest.sh socket</li>
+                        Remove TCP socket and install http speedtest: <li style="font-family: monospace;">sudo /usr/local/opnsense/scripts/OPNsense/speedtest/install_speedtest.sh http</li>
+                        Remove any installed speedtest: <li style="font-family: monospace;">sudo /usr/local/opnsense/scripts/OPNsense/speedtest/install_speedtest.sh delete</li>
+                        <br/>
                     </div>
                 </tr>
             </thead>
@@ -123,18 +130,18 @@
         </table>
     </div>
 </div>
-
+<small><div id="version"></div></small>
 <div class="hide" data-for="help_for_speedprobes">
     <a href="/ui/cron"><button class="btn btn-xs btn-primary" id="cronAct" type="button">
             <b> schedule in cron </b>
-    </button></a>
-    <button id="cli1Act" class="btn btn-xs" type="button">
-        <b>speedtest-cli</b>
-    </button>
-    <button id="bin1Act" class="btn btn-xs" type="button">
-        <b>ookla binary</b>
-    </button><br>
-    <small><div id="version"></div></small>
+    </button></a><br>
+    <small>
+        There is a script <b>install_speedtest.sh</b> available in the directory /usr/local/opnsense/scripts/OPNsense/speedtest to help changing the speedtest package:<br/>
+        Remove http and install TCP socket speedtest: <li style="font-family: monospace;">sudo /usr/local/opnsense/scripts/OPNsense/speedtest/install_speedtest.sh socket</li>
+        Remove TCP socket and install http speedtest: <li style="font-family: monospace;">sudo /usr/local/opnsense/scripts/OPNsense/speedtest/install_speedtest.sh http</li>
+        Remove any installed speedtest: <li style="font-family: monospace;">sudo /usr/local/opnsense/scripts/OPNsense/speedtest/install_speedtest.sh delete</li>
+        <br/>
+    </small>
 </div>
 
 <div class="content-box" id="logs">
@@ -177,7 +184,7 @@
 
 <script>
     function stat_reload() {
-        ajaxCall(url = "/api/speedtest/service/showstat", sendData = {}, callback = function(l, status) {
+        ajaxCall("/api/speedtest/service/showstat", {}, function(l, status) {
             $('#stat_samples').html("<b>" + l.samples + "<\/b>")
             $('#stat_latency').html("<b>" + l.latency.avg + " ms<\/b> (min: " + l.latency.min + " ms, max: " + l.latency.max + " ms)")
             $('#stat_download').html("<b>" + l.download.avg + " Mbps<\/b> (min: " + l.download.min + " Mbps, max: " + l.download.max + " Mbps)")
@@ -185,7 +192,7 @@
         });
     };
     function log_reload() {
-        ajaxCall(url = "/api/speedtest/service/showlog", sendData = {}, callback = function(l, status) {
+        ajaxCall("/api/speedtest/service/showlog", {}, function(l, status) {
             for (var i = 0; i < l.length; i++) {
                 var obj = obj +
                     "<tr><td class=\"text-left\" style=\"\">" + l[i][0] + "</td>" +
@@ -199,26 +206,14 @@
         });
     };
     function version_reload() {
-        ajaxCall(url = "/api/speedtest/service/version", sendData = {}, callback = function(l, status) {
+        ajaxCall("/api/speedtest/service/version", {}, function(l, status) {
             $('#checkingspeedtest').hide();
             if (l.version=='none') {
                 $('#nospeedtest').show("div");
             } else {
                 $('#canruntests').show();
                 $('#version').text(l.message);
-                if (l.version=='binary') {
-                    $('#bin1Act').addClass('btn-success disabled')
-                    $('#bin1Act').removeClass('btn-primary')
-                    $('#cli1Act').removeClass('btn-success disabled')
-                    $('#cli1Act').addClass('btn-primary')
-                } else {
-                    $('#cli1Act').addClass('btn-success disabled')
-                    $('#cli1Act').removeClass('btn-primary')
-                    $('#bin1Act').removeClass('btn-success disabled')
-                    $('#bin1Act').addClass('btn-primary')
-                }
-                
-                ajaxCall(url = "/api/speedtest/service/serverlist", sendData = {}, callback = function(l, status) {
+                ajaxCall("/api/speedtest/service/serverlist", sendData = {}, function(l, status) {
                     $('#speedlist').text("")
                     for (var i = 0; i < l.length; i++) {
                         $('#speedlist').append("<option value=\"" + l[i].id + "\">" + "(" + l[i].id + ") " + l[i].name + ", " + l[i].location + "<\/option>");

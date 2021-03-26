@@ -104,7 +104,10 @@ try:
         avglat = statistics.mean(latencyarray)
         avgdl = statistics.mean(downloadarray)
         avgul = statistics.mean(uploadarray)
-        timedelta = (max(timearray)- min(timearray)).days
+        if line == 0:
+            timedelta = 0
+        else:
+            timedelta = (max(timearray)- min(timearray)).days
         out = {
             'samples': line,
             'period': {
@@ -116,19 +119,16 @@ try:
                 'avg': round(statistics.mean(latencyarray),2),
                 'min': round(min(latencyarray),2),
                 'max': round(max(latencyarray),2),
-                'last': round(float(row[5]),2)
                 },
             'download': {
                 'avg': round(statistics.mean(downloadarray),2),
                 'min': round(min(downloadarray),2),
                 'max': round(max(downloadarray),2),
-                'last': round(float(row[6]),2)
                 },
             'upload':  {
                 'avg': round(statistics.mean(uploadarray),2),
                 'min': round(min(uploadarray),2),
                 'max': round(max(uploadarray),2),
-                'last': round(float(row[7]),2)
                 }
         }
         print(json.dumps(out))

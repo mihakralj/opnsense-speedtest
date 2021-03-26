@@ -1,16 +1,18 @@
 # opnsense-speedtest
-speedtest plugin for OPNsense. Doesn't include the speedtest module, but allows installation of either Python-based http test or Ookla's binary socket test.
-To change the testing module, expand the help (top right)
+speedtest plugin for OPNsense
 
 ## install
 ```
-sudo pkg add https://github.com/mihakralj/opnsense-speedtest/raw/main/work/pkg/os-speedtest-0.7_1.txz
+sudo pkg add https://github.com/mihakralj/opnsense-speedtest/raw/main/work/pkg/os-speedtest-devel-0.7_2.txz
 ```
-format of csv has changed and now expects epoch time in the first row - do clear the old one if upgrading from previous builds
-(how do you convert epoch time to an Excel datetime, you ask? With a formula `=(A1/86400)+DATE(1970,1,1)` )
 
 ## remove
 `sudo pkg delete os-speedtest-devel`
+
+### Version 0.7_2
+- removed automatic invocation of install_speedtest.sh from GUI
+- removed the bug on widget control
+- fixed the display of stats when there are zero records in the csv
 
 ### Version 0.7
 - no dependency at install time; plugin detects if speedtest is missing and allows installation
