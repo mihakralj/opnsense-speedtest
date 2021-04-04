@@ -104,16 +104,11 @@ try:
         avglat = statistics.mean(latencyarray)
         avgdl = statistics.mean(downloadarray)
         avgul = statistics.mean(uploadarray)
-        if line == 0:
-            timedelta = 0
-        else:
-            timedelta = (max(timearray)- min(timearray)).days
         out = {
             'samples': line,
             'period': {
                 'oldest': str(min(timearray)),
                 'youngest': str(max(timearray)),
-                'days': timedelta
             },
             'latency': {
                 'avg': round(statistics.mean(latencyarray),2),
