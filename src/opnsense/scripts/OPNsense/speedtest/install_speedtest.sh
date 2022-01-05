@@ -21,16 +21,16 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-if [ $1 = 'http' ] 
+if [ "$1" = 'http' ] 
 then 
   pkg delete -y speedtest
   pkg install -f -y py38-speedtest-cli
-elif [ $1 = 'socket' ] 
+elif [ "$1" = 'socket' ] 
 then 
   pkg delete -y py38-speedtest-cli
   pkg install -y libidn2
   pkg add -f "https://install.speedtest.net/app/cli/ookla-speedtest-1.1.1-freebsd12-x86_64.pkg"
-elif [ $1 = 'delete' ]
+elif [ "$1" = 'delete' ]
 then
   pkg delete -y speedtest
   pkg delete -y py38-speedtest-cli
