@@ -179,7 +179,8 @@ try:
         else:
             out = {
                 "version": "cli",
-                "message": version.splitlines()[0] + " " + version.splitlines()[1],
+                "message":
+                version.splitlines()[0] + " " + version.splitlines()[1],
             }
         print(json.dumps(out))
         quit()
@@ -196,13 +197,11 @@ try:
                 "--servers",
                 "-fjsonl",
             ]
-            serverlist = (
-                subprocess.run(
-                    cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=True
-                )
-                .stdout.decode("utf-8")
-                .splitlines()
-            )
+            serverlist = (subprocess.run(
+                cmd,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                check=True).stdout.decode("utf-8").splitlines())
             for line in serverlist:
                 tt = json.loads(line)
                 out = {
@@ -215,13 +214,11 @@ try:
         else:
             # when http, we reassemble the json from the text output; speedtest-cli can't return json list of servers
             cmd = [speedtest, "--list"]
-            serverlist = (
-                subprocess.run(
-                    cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=True
-                )
-                .stdout.decode("utf-8")
-                .splitlines()
-            )
+            serverlist = (subprocess.run(
+                cmd,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                check=True).stdout.decode("utf-8").splitlines())
             for line in serverlist[1:11]:
                 rec = re.split("\) | \(|, ", line)
                 out = {
@@ -242,7 +239,10 @@ try:
     # running code with integer: supply the argument as an ID of the seerver
     elif is_int(arg):
         if bin_version:
-            cmd = [speedtest, "--accept-license", "--accept-gdpr", "-fjson", "-s" + arg]
+            cmd = [
+                speedtest, "--accept-license", "--accept-gdpr", "-fjson",
+                "-s" + arg
+            ]
         else:
             cmd = [speedtest, "--json", "--share", "--server", arg]
     # running the speedtest with the right parameters
@@ -251,19 +251,18 @@ try:
         print(json.dumps(out))
         quit()
     result = json.loads(
-        subprocess.run(
-            cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=True
-        ).stdout.decode("utf-8")
-    )
+        subprocess.run(cmd,
+                       stdout=subprocess.PIPE,
+                       stderr=subprocess.STDOUT,
+                       check=True).stdout.decode("utf-8"))
     # assembling the output json to be consistent regarless of what came back from speedtest
     out = {}
     if bin_version:
         out["timestamp"] = result["timestamp"]
         out["clientip"] = result["interface"]["externalIp"]
         out["serverid"] = result["server"]["id"]
-        out["servername"] = (
-            result["server"]["name"] + ", " + result["server"]["location"]
-        )
+        out["servername"] = (result["server"]["name"] + ", " +
+                             result["server"]["location"])
         out["country"] = result["server"]["country"]
         out["latency"] = round(result["ping"]["latency"], 2)
         out["download"] = round(result["download"]["bandwidth"] / 125000, 2)
@@ -273,16 +272,16 @@ try:
         out["timestamp"] = result["timestamp"][:-8] + "Z"
         out["clientip"] = result["client"]["ip"]
         out["serverid"] = result["server"]["id"]
-        out["servername"] = (
-            result["server"]["sponsor"] + ", " + result["server"]["name"]
-        )
+        out["servername"] = (result["server"]["sponsor"] + ", " +
+                             result["server"]["name"])
         out["country"] = result["server"]["country"]
         out["latency"] = round(result["ping"], 2)
         out["download"] = round(result["download"] / 1000000, 2)
         out["upload"] = round(result["upload"] / 1000000, 2)
         out["link"] = result["share"][:-4]
     # datetime in CSV uses different format
-    csvtime = datetime.strptime(out["timestamp"], "%Y-%m-%dT%H:%M:%SZ").timestamp()
+    csvtime = datetime.strptime(out["timestamp"],
+                                "%Y-%m-%dT%H:%M:%SZ").timestamp()
     newrow = [
         csvtime,
         out["clientip"],
