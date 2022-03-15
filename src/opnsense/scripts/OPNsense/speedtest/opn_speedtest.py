@@ -26,16 +26,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 """
-import sys
 import csv
-import json
-import time
-import re
 import datetime
-from datetime import datetime
-import subprocess
-import statistics
+import json
 import os.path
+import re
+import statistics
+import subprocess
+import sys
+import time
+from datetime import datetime
 from os import path
 
 # A wrapper around speedtest.py CLI: get arrguments (if any), run the test,
