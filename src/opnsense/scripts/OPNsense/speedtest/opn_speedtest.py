@@ -81,7 +81,6 @@ try:
 
     # parameter r or recent - returning the last 1 entries from csv
     if arg=='r' or arg == 'recent':
-        array=[]
         f = open(csvfile, 'r', encoding="utf-8")
         data = csv.reader(f,dialect='excel')
         header = next(data)
@@ -89,8 +88,6 @@ try:
         for row in data:
             #from timestamp to visual form
             row[0]=datetime.fromtimestamp(float(row[0])).isoformat()
-            #array.append(row)
-        #array=sorted(array, reverse=True)
         f.close()
         out = {
             'date': str(row[0]),
