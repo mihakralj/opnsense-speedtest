@@ -25,6 +25,7 @@
  *    ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *    POSSIBILITY OF SUCH DAMAGE.
  */
+
 namespace OPNsense\Speedtest\Api;
 
 use OPNsense\Base\ApiControllerBase;
@@ -56,21 +57,21 @@ class ServiceController extends ApiControllerBase
     {
         return (new Backend())->configdRun("speedtest showlog");
     }
-	
-	public function showrecentAction()
-	{
-		return (new Backend())->configdRun("speedtest showrecent");
-	}
+
+    public function showrecentAction()
+    {
+        return (new Backend())->configdRun("speedtest showrecent");
+    }
 
     public function deletelogAction()
     {
         return (new Backend())->configdRun("speedtest deletelog");
-    }    
+    }
 
     public function installhttpAction()
     {
         return (new Backend())->configdRun("speedtest install-http");
-    }    
+    }
     public function installsocketAction()
     {
         return (new Backend())->configdRun("speedtest install-socket");
