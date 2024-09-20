@@ -1,12 +1,5 @@
-<<<<<<< HEAD
 An OPNsense wrapper for the speedtest CLI test.
 Plugin allows speedtests to be executed periodically
 through CRON, generates history of past tests, shows
 statistics (avg, min, max) for latency, download and
-=======
-An OPNsense wrapper for the speedtest CLI test.
-Plugin allows speedtests to be executed periodically
-through CRON, generates history of past tests, shows
-statistics (avg, min, max) for latency, download and
->>>>>>> c16d5c50c898c0f859e241f35252125ee1e51699
 upload results in the dashboard widget.

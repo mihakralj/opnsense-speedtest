@@ -1,3 +1,4 @@
 .pkgsave
 copyover.sh
 work/src/*
+.DS_Store
