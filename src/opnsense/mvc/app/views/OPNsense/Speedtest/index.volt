@@ -183,14 +183,14 @@
     };
     function log_reload() {
         ajaxCall(url = "/api/speedtest/service/showlog", sendData = {}, callback = function(l, status) {
+            var obj = "";
             for (var i = 0; i < l.length; i++) {
-                var obj = obj +
-                    "<tr><td class=\"text-left\" style=\"\">" + l[i][0] + "</td>" +
-                    "<td class=\"text-left\" style=\"\">" + l[i][2] + "</td>" +
-                    "<td class=\"text-left\" style=\"\">" + l[i][3] + "</td>" +
-                    "<td class=\"text-left\" style=\"\">" + parseFloat(l[i][5]).toFixed(2) + "</td>" +
-                    "<td class=\"text-left\" style=\"\">" + parseFloat(l[i][6]).toFixed(2) + "</td>" +
-                    "<td class=\"text-left\" style=\"\">" + parseFloat(l[i][7]).toFixed(2) + "</td></tr>"
+                obj += "<tr><td class=\"text-left\">" + l[i][0] + "</td>" +
+                       "<td class=\"text-left\">" + l[i][2] + "</td>" +
+                       "<td class=\"text-left\">" + l[i][3] + "</td>" +
+                       "<td class=\"text-left\">" + parseFloat(l[i][5]).toFixed(2) + "</td>" +
+                       "<td class=\"text-left\">" + parseFloat(l[i][6]).toFixed(2) + "</td>" +
+                       "<td class=\"text-left\">" + parseFloat(l[i][7]).toFixed(2) + "</td></tr>";
             }
             $('#log_block').html(obj);
         });
@@ -300,6 +300,14 @@
             });
             $('#log_block').html("");
             log_reload();
+        });
+        // toggle log visibility
+        $("#show_advanced_log, #togglelog").click(function(e) {
+            e.preventDefault();
+            var icon = $("#show_advanced_log");
+            icon.toggleClass("fa-toggle-on fa-toggle-off");
+            icon.toggleClass("text-success text-danger");
+            $('[data-advanced="true"]').toggle();
         });
     });
 
